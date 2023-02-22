@@ -1,0 +1,30 @@
+name: CI Tests
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  unit_test:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Unit test passed."
+
+  integ_test:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [[$random 10 -eq 0]]
+          then
+            echo "Integration test failed.";
+            exit 1;
+          else
+            echo "Integration test passed.";
+          fi
+
